@@ -1,17 +1,27 @@
 import React from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native'
+import { getImageFromApi } from '../API/TMDB.js'
+
 
 class FilmItem extends React.Component {
     render() {
         const film = this.props.film
+        const DisplayDetailForFilm = this.props.DisplayDetailForFilm
         return (
-            <View style={[styles.main_container, { flex : 1, marginTop : 10, marginLeft : 5, marginRight : 5 }]}>
+            <TouchableOpacity
+            onPress={() => DisplayDetailForFilm(film.id)}
+            style={[styles.main_container, { flex : 1, marginTop : 10, marginLeft : 5, marginRight : 5 }]}>
                 <View style={{ flex : 1, flexDirection : 'row' }}>
-                    <View style={{ flex : 1, backgroundColor : 'grey' }}></View>
+                    <View style={{ flex : 1, backgroundColor : 'grey' }}>
+                        <Image
+                        style={{width: '100%', height: '100%'}}
+                        source={{ uri:getImageFromApi(film.poster_path) }}
+                        />
+                    </View>
                     <View style={{ flex : 2 }}>
                         <View style={{ flexDirection : 'row', flex : 1 }}>
                             <View style={[styles.container, { flex : 2 }]}>
-                                <Text>{ film.title }</Text>
+                                <Text numberOfLines={2}>{ film.title }</Text>
                             </View>
                             <View style={[styles.container, { flex : 1 }]}>
                                 <Text>{ film.vote_average }</Text>
@@ -26,7 +36,7 @@ class FilmItem extends React.Component {
                         </View>
                     </View>
                 </View>
-            </View>
+            </TouchableOpacity>
         )
     }
 }
